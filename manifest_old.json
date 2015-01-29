@@ -1,0 +1,15 @@
+{
+  "manifest_version": 2,
+
+  "name": "Dumper",
+  "description": "Dumps raw business object of current page.",
+  "version": "1.0",
+
+  "browser_action": {
+    "default_icon": "icon.png"
+  },
+  "background": {
+	"scripts": ["background.js"]
+  },
+  "permissions": ["tabs"]
+}
