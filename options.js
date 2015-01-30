@@ -50,26 +50,6 @@ function addDump() {
   });
 }
 
-
-
-
-
-// To do:
-// 1. add dumpConfig items to ordered list
-// -----DONE
-// 2. hook up the "make active" radio button logic
-// -----DONE
-// 3. make a remove button for each line item, hook up logic
-// -----ALMOST THERE!!! cover edge cases. update table dynamically.
-// -----Just need to figure out why last click event isnt hooking up properly....
-// 4. update table after adding dump
-
-
-
-
-
-
-
 function message(msg) {
   var message = document.querySelector('#theMessage');
   message.innerText = msg;
@@ -93,6 +73,7 @@ function loadThisDude() {
           removeBtn.setAttribute("name", "remove");
           removeBtn.setAttribute("value", "X");
           removeBtn.setAttribute("id", dumpConfig[i].id);
+          removeBtn.onclick = remove;
 
           var appended = dumpConfig[i].appended;
           var substring = dumpConfig[i].substring;
@@ -102,6 +83,7 @@ function loadThisDude() {
           active.setAttribute("name", "activeStatus");
           active.setAttribute("id", dumpConfig[i].id);
           active.checked = dumpConfig[i].active;
+          active.onclick = activate;
 
           var row = theDumpTable.insertRow(-1);
           var cell1 = row.insertCell(0);
@@ -114,20 +96,15 @@ function loadThisDude() {
           cell3.innerHTML = substring;
           cell4.appendChild(active);
         }
-
-        var statuses = document.forms["dumpTableForm"].elements["activeStatus"];
-        for (var i=0; i<statuses.length; i++) {
-          statuses[i].onclick = activate;
-        }
-
-        var removeBtns = document.forms["dumpTableForm"].elements["remove"];
-        for (var i=0; i<removeBtns.length; i++) {
-          removeBtns[i].onclick = remove;
-          console.log("CLICK!");
-        }
       }
     } else {
       console.log("well i got here i guess");
+    }
+
+    if (theDumpTable.rows.length < 2) {
+      document.getElementById("emptyInventory").style.display = "inline";
+    } else {
+      document.getElementById("emptyInventory").style.display = "none";
     }
   });
   

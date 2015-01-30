@@ -1,46 +1,45 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
   <head>
-    <title>Stylizr</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dumpr</title>
     <style>
-      body {
-        font-family: sans-serif;
-        width: 400px;
-      }
-      table, th, td {
-        padding: 5px;
-        border: 1px solid black;
-      }
-      table {
-        border-collapse: collapse;
-        border-spacing: 0;
-      }
       .question {
         width: 300px;
       }
     </style>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
   </head>
-  <body id="content">
-    <div>What would you like appended?</div>
-    <input id="myAppended" type="text" class="question" />
-    <div>After which URL path segment?</div>
-    <div>(Leave blank to append to URL)</div>
-    <input id="mySubstring" type="text" class="question" /><br/>
-    <button class="submit">Submit</button><span id="theMessage">Good luckk!</span>
+  <body>
 
-    <form id="dumpTableForm">
-      <h3>No items in your inventory!</h3>
-      <div>
-        <table id="theDumpTable">
-          <tr>
-            <th> :-( </th>
-            <th>Appended</th>
-            <th>Substring</th>
-            <th>Active</th>
-          </tr>
-        </table>
+    <div class="container-fluid">
+      <div class="row">
+        <h1>Dumpr <small>Add dumps here...</small></h1>
+        <p>What would you like appended?</p>
+        <input id="myAppended" type="text" class="question" />
+        <p>After which URL path segment? <small>Leave blank to append to URL</small></p>
+        
+        <input id="mySubstring" type="text" class="question" /><br/>
+        <button class="submit">Add</button><span id="theMessage"></span>
+
+        <form id="dumpTableForm">
+          <h3>Inventory <span id="emptyInventory">(empty)</span></h3>
+          <div>
+            <table id="theDumpTable" class="table table-striped">
+              <tr>
+                <th> :-( </th>
+                <th>Appended</th>
+                <th>Substring</th>
+                <th>Active</th>
+              </tr>
+            </table>
+          </div>
+        </form>
       </div>
-    </form>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
     <script src="options.js"></script>
   </body>
 </html>
