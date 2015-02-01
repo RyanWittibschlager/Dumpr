@@ -67,11 +67,12 @@ function loadThisDude() {
 
       if (dumpConfig) {
         var theDumpTable = document.getElementById('theDumpTable');
-        for (var i = 0; i < dumpConfig.length; i++) {
+        for (var i = dumpConfig.length - 1; i >= 0; i--) {
           var removeBtn = document.createElement("INPUT");
           removeBtn.setAttribute("type", "button");
           removeBtn.setAttribute("name", "remove");
           removeBtn.setAttribute("value", "X");
+          removeBtn.setAttribute("class", "btn btn-danger");
           removeBtn.setAttribute("id", dumpConfig[i].id);
           removeBtn.onclick = remove;
 
@@ -137,7 +138,7 @@ var activate = function() {
 
 var remove = function() {
   // grab id of 'this'
-  var id = this.id;
+  var id = parseInt(this.id);
   console.log("got here");
 
   storage.get('dumpConfig', function(items) {

@@ -3,28 +3,36 @@
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Dumpr</title>
-    <style>
-      .question {
-        width: 300px;
-      }
-    </style>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
   </head>
   <body>
 
     <div class="container-fluid">
+      <h1>Dumpr <small>Add dumps here...</small></h1>
       <div class="row">
-        <h1>Dumpr <small>Add dumps here...</small></h1>
-        <p>What would you like appended?</p>
-        <input id="myAppended" type="text" class="question" />
-        <p>After which URL path segment? <small>Leave blank to append to URL</small></p>
-        
-        <input id="mySubstring" type="text" class="question" /><br/>
-        <button class="submit">Add</button><span id="theMessage"></span>
+        <div class="col-md-3">
+          <form>
+            <div class="form-group">
+              <label>What would you like appended?</label>
+              <input id="myAppended" type="text" class="question form-control" />
+            </div>
+            <div class="form-group">
+              <label>After which URL path segment?</label>          
+              <input id="mySubstring" type="text" class="question form-control" placeholder="Leave blank to append to URL" />
+            </div>
+            <button class="btn btn-default submit">Add</button><span id="theMessage"></span>
+          </form>
+        </div>
+        <div class="col-md-3">
+          <p class="bg-info">Instructions: Add a dump to the inventory. Make sure it is active. Then, whenever you click the Dumpr extension icon, a modified URL will be opened into a new tab.</p>
+        </div>
+        <div class="col-md-6"></div>
+      </div>
 
-        <form id="dumpTableForm">
-          <h3>Inventory <span id="emptyInventory">(empty)</span></h3>
-          <div>
+      <form id="dumpTableForm">
+        <h3>Inventory <span id="emptyInventory">(empty)</span></h3>
+        <div class="row">
+          <div class="col-md-6">
             <table id="theDumpTable" class="table table-striped">
               <tr>
                 <th> :-( </th>
@@ -34,8 +42,9 @@
               </tr>
             </table>
           </div>
-        </form>
-      </div>
+          <div class="col-md-6"></div>
+        </div>
+      </form>
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
