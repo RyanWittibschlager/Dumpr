@@ -186,3 +186,28 @@ var reloadTable = function() {
 
   loadThisDude();
 }
+
+$("#help1btn").click(function() {
+  $("#help1").fadeIn("slow");
+});
+
+$("#help2btn").click(function() {
+  $("#help2").fadeIn("slow");
+});
+
+$("#help3btn").click(function() {
+  $("#help3").fadeIn("slow");
+});
+
+$("#help4btn").click(function() {
+  $("#help3").fadeOut("slow");
+  $("#help2").fadeOut("slow");
+  $("#help1").fadeOut("slow");
+});
+
+// LOTS OF GREAT FEATURES IMPLEMENTED!! WOO HOO!!
+// Things to do:
+// 1. take care of the "Settings saved" message(s), use fadein/fadeOut
+// 2. clean up code. refactor.
+// 3. do some system testing.
+// 4. ask Abbey to test it.

@@ -4,11 +4,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Dumpr</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <style>
+      .exampleUrl {
+        display: block;
+        padding: 1em;
+      }
+      #help1, #help2, #help3 {
+        display: none;
+      }
+    </style>
   </head>
   <body>
 
     <div class="container-fluid">
+
       <h1>Dumpr <small>Add dumps here...</small></h1>
+
       <div class="row">
         <div class="col-md-3">
           <form>
@@ -23,17 +34,29 @@
             <button class="btn btn-default submit">Add</button><span id="theMessage"></span>
           </form>
         </div>
-        <div class="col-md-3">
-          <p class="bg-info">Instructions: Add a dump to the inventory. Make sure it is active. Then, whenever you click the Dumpr extension icon, a modified URL will be opened into a new tab.</p>
+        <div class="col-md-5">
+          <button id="help1btn" type="button" class="btn btn-link">Help</button>
+          <div id="help1">
+            <p class="bg-info">Add a dump to the inventory. Make sure it is active. Then, whenever you click the Dumpr extension icon, a modified URL will be opened into a new tab.</p>
+            <button id="help2btn" type="button" class="btn btn-link">I don't understand...</button>
+            <div id="help2">
+              <p class="bg-info">Let's say you have created a dump with Appended set to <code>allBugs/location.htm</code>, and you have Substring set to <code>bugs</code>. You navigate to a particular page within a website:<span class="exampleUrl">http://www.insects.com/world/us/bugsThatAreNotDangerous/cricket.htm</span>Clicking on the Dumpr extension button would open a new tab with the following URL:<span class="exampleUrl">http://www.insects.com/world/us/bugsThatAreNotDangerous/allBugs/location.htm</span></p>
+              <button id="help3btn" type="button" class="btn btn-link">I still don't understand...</button>
+              <div id="help3">
+                <p class="bg-info">Let's break it down. The last part of the URL makes sense:<span class="exampleUrl">http://www.insects.com/world/us/bugsThatAreNotDangerous/<b>allBugs/location.html</b></span>This is what we wanted 'appended' to our URL. However, when you give a substring, the Dumpr searches for that substring in the current URL. If it finds it:<span class="exampleUrl">http://www.insects.com/world/us/<b>bugs</b>ThatAreNotDangerous/cricket.htm</span>then it appends the 'Appended' after that particular URL path segment, like so:<span class="exampleUrl">http://www.insects.com/world/us/bugsThatAreNotDangerous/<b>allBugs/location.html</b></span></p>
+                <button id="help4btn" type="button" class="btn btn-link">Okay, I think I understand. Can I get rid of this help text?</button>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="col-md-6"></div>
+        <div class="col-md-4"></div>
       </div>
 
       <form id="dumpTableForm">
         <h3>Inventory <span id="emptyInventory">(empty)</span></h3>
         <div class="row">
           <div class="col-md-6">
-            <table id="theDumpTable" class="table table-striped">
+            <table id="theDumpTable" class="table table-striped table-bordered table-condensed">
               <tr>
                 <th> :-( </th>
                 <th>Appended</th>
@@ -45,6 +68,7 @@
           <div class="col-md-6"></div>
         </div>
       </form>
+
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
