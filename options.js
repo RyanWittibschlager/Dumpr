@@ -10,6 +10,8 @@ function addDump() {
   // Get the current CSS snippet from the form.
   var appended = myAppended.value;
   var substring = mySubstring.value;
+  myAppended.value = '';
+  mySubstring.value = '';
 
   // Check that there's some code there.
   if (!appended) {
@@ -208,6 +210,8 @@ $("#help4btn").click(function() {
 // LOTS OF GREAT FEATURES IMPLEMENTED!! WOO HOO!!
 // Things to do:
 // 1. take care of the "Settings saved" message(s), use fadein/fadeOut
+// |---> DONE!
+// 1.5 make the "leave blank to append to URL" functionality work
 // 2. clean up code. refactor.
 // 3. do some system testing.
 // 4. ask Abbey to test it.

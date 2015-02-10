@@ -7,7 +7,7 @@
 // See note in options.js for rationale on why not to use "sync".
 var storage = chrome.storage.local;
 // clear it for now
-storage.clear();
+//storage.clear();
 var message = document.querySelector('#message');
 
 var currentUrl = "";
