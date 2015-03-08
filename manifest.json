@@ -1,7 +1,10 @@
 {
+  "manifest_version": 2,
   "name": "Dumpr",
-  "description": "Dump your URL into a new tab modified!",
   "version": "1.0",
+
+  "description": "Dump your modified URL into a new tab!",
+  "icons": { "128": "icon128.png" },
 
   "permissions": [
     "activeTab",
@@ -15,10 +18,7 @@
   "options_page": "options.html",
 
   "browser_action": {
-    "default_icon": "icon.png",
-    "default_title": "Stylize!",
+    "default_title": "Dumpr",
     "default_popup": "popup.html"
-  },
-
-  "manifest_version": 2
+  }
 }

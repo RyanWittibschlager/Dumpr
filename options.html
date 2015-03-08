@@ -9,7 +9,7 @@
         display: block;
         padding: 1em;
       }
-      #help1, #help2, #help3 {
+      #help1, #help2, #help3, #uploadStuff {
         display: none;
       }
       #theMessage {
@@ -36,6 +36,13 @@
             <input id="mySubstring" type="text" class="question form-control" placeholder="Leave blank to append to URL" />
           </div>
           <button class="btn btn-default submit">Add</button><span id="theMessage"></span>
+          <div class="form-group">
+            <button id="uploadOption" type="button" class="btn btn-link">Or...</button>
+            <div id="uploadStuff">
+              <p class="help-block">Upload a JSON-formatted dump.</p>
+              <input type="file" id="uploader">
+            </div>
+          </div>
         </div>
         <div class="col-md-5">
           <button id="help1btn" type="button" class="btn btn-link">Help</button>
@@ -52,7 +59,8 @@
             </div>
           </div>
         </div>
-        <div class="col-md-4"></div>
+        <div class="col-md-4">
+        </div>
       </div>
 
       <form id="dumpTableForm">
