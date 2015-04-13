@@ -1,0 +1,1 @@
+var dumprApp = angular.module("DumprApp", ['ngAnimate']);

@@ -1,25 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="DumprApp" ng-csp>
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Dumpr</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-    <style>
-      .exampleUrl {
-        display: block;
-        padding: 1em;
-      }
-      #help1, #help2, #help3, #uploadStuff {
-        display: none;
-      }
-      #theMessage {
-        margin-left: 10px;
-        font-weight: bold;
-        color: red;
-      }
-    </style>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/options.css">
   </head>
-  <body>
+  <body ng-controller="DumprController">
 
     <div class="container-fluid">
 
@@ -27,34 +14,38 @@
 
       <div class="row">
         <div class="col-md-3">
+
+          <form>
+            <div class="form-group">
+              <label>What would you like appended?</label>
+              <input ng-model="dump.appended" class="question form-control" />
+            </div>
+            <div class="form-group">
+              <label>After which URL path segment?</label>          
+              <input ng-model="dump.substring" class="question form-control" placeholder="Leave blank to append to URL" />
+            </div>
+            <button ng-click="addDump(dump)" class="btn btn-default submit">Add</button><span id="theMessage"></span>
+          </form>
+
           <div class="form-group">
-            <label>What would you like appended?</label>
-            <input id="myAppended" type="text" class="question form-control" />
-          </div>
-          <div class="form-group">
-            <label>After which URL path segment?</label>          
-            <input id="mySubstring" type="text" class="question form-control" placeholder="Leave blank to append to URL" />
-          </div>
-          <button class="btn btn-default submit">Add</button><span id="theMessage"></span>
-          <div class="form-group">
-            <button id="uploadOption" type="button" class="btn btn-link">Or...</button>
-            <div id="uploadStuff">
+            <button ng-click="upload=true" class="btn btn-link">Or...</button>
+            <div class="upload" ng-if="upload">
               <p class="help-block">Upload a JSON-formatted dump.</p>
               <input type="file" id="uploader">
             </div>
           </div>
         </div>
         <div class="col-md-5">
-          <button id="help1btn" type="button" class="btn btn-link">Help</button>
-          <div id="help1">
+          <button ng-click="help1=true" class="btn btn-link">Help</button>
+          <div class="help1" ng-if="help1">
             <p class="bg-info">Add a dump to the inventory. Make sure it is active. Then, whenever you click the Dumpr extension icon, a modified URL will be opened into a new tab.</p>
-            <button id="help2btn" type="button" class="btn btn-link">I don't understand...</button>
-            <div id="help2">
+            <button ng-click="help2=true" class="btn btn-link">I don't understand...</button>
+            <div class="help2" ng-if="help2">
               <p class="bg-info">Let's say you have created a dump with Appended set to <code>allBugs/location.htm</code>, and you have Substring set to <code>bugs</code>. You navigate to a particular page within a website:<span class="exampleUrl">http://www.insects.com/world/us/bugsThatAreNotDangerous/cricket.htm</span>Clicking on the Dumpr extension button would open a new tab with the following URL:<span class="exampleUrl">http://www.insects.com/world/us/bugsThatAreNotDangerous/allBugs/location.htm</span></p>
-              <button id="help3btn" type="button" class="btn btn-link">I still don't understand...</button>
-              <div id="help3">
+              <button ng-click="help3=true" class="btn btn-link">I still don't understand...</button>
+              <div class="help3" ng-if="help3">
                 <p class="bg-info">Let's break it down. The last part of the URL makes sense:<span class="exampleUrl">http://www.insects.com/world/us/bugsThatAreNotDangerous/<b>allBugs/location.html</b></span>This is what we wanted 'appended' to our URL. However, when you give a substring, the Dumpr searches for that substring in the current URL. If it finds it:<span class="exampleUrl">http://www.insects.com/world/us/<b>bugs</b>ThatAreNotDangerous/cricket.htm</span>then it appends the 'Appended' after that particular URL path segment, like so:<span class="exampleUrl">http://www.insects.com/world/us/bugsThatAreNotDangerous/<b>allBugs/location.html</b></span></p>
-                <button id="help4btn" type="button" class="btn btn-link">Okay, I think I understand. Can I get rid of this help text?</button>
+                <button ng-click="hideHelpText()" class="btn btn-link">Okay, I think I understand. Can I get rid of this help text?</button>
               </div>
             </div>
           </div>
@@ -64,15 +55,21 @@
       </div>
 
       <form id="dumpTableForm">
-        <h3>Inventory <span id="emptyInventory">(empty)</span></h3>
+        <h3>Inventory <span ng-if="!dumps">(empty)</span></h3>
         <div class="row">
           <div class="col-md-6">
-            <table id="theDumpTable" class="table table-striped table-bordered table-condensed">
+            <table class="table table-striped table-bordered table-condensed">
               <tr>
                 <th> :-( </th>
                 <th>Appended</th>
                 <th>Substring</th>
                 <th>Active</th>
+              </tr>
+              <tr ng-repeat="dump in dumps | orderBy:'-id'">
+                <td><input type="button" value="X" class="btn btn-danger" ng-click="removeDump(dump)" /></td>
+                <td>{{dump.appended}}</td>
+                <td>{{dump.substring}}</td>
+                <td><input type="radio" name="mractive" ng-checked="dump.active" ng-click="activateDump(dump)" /></td>
               </tr>
             </table>
           </div>
@@ -81,9 +78,11 @@
       </form>
 
     </div>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-    <script src="options.js"></script>
+    <script src="js/lib/jquery-1.11.2.min.js"></script>
+    <script src="js/lib/bootstrap.min.js"></script>
+    <script src="js/lib/angular.min.js"></script>
+    <script src="js/lib/angular-animate.min.js"></script>
+    <script src="js/app/app.js"></script>
+    <script src="js/app/options.js"></script>
   </body>
 </html>
