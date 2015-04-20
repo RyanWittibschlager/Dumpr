@@ -1,4 +1,4 @@
-dumprApp.service("DumprService", function($q) {
+dumprApp.service("DumprService", ["$q", function($q) {
   var storage = chrome.storage.local;
 
   this.getDumps = function() {
@@ -29,6 +29,39 @@ dumprApp.service("DumprService", function($q) {
           dumpConfig = [];
           dump.id = 0;
           dumpConfig[0] = dump;
+        }
+        // save the dumpConfig
+        storage.set({'dumpConfig': dumpConfig}, function() {
+          resolve(dumpConfig);
+        });
+      });
+    });
+  }
+
+    this.addDumps = function(dumps) {
+    //dump.active = true;
+    return $q(function(resolve) {
+      storage.get('dumpConfig', function(items) {
+        var dumpConfig = items.dumpConfig;
+        if (dumpConfig) {
+          // deactivate current dump
+          for (var i=0; i<dumpConfig.length; i++) {
+            if(dumpConfig[i].active)
+              dumpConfig[i].active = false;
+          }
+          // add new dumps
+          for (var i = 0; i < dumps.length; i++) {
+            dumps[i].id = dumpConfig.length;
+            dumps[i].active = i == (dumps.length - 1) ? true : false;
+            dumpConfig[dumpConfig.length] = dumps[i];
+          }
+        } else {
+          dumpConfig = [];
+          for (var i = 0; i < dumps.length; i++) {
+            dumps[i].id = i;
+            dumps[i].active = i == (dumps.length - 1) ? true : false;
+            dumpConfig[i] = dumps[i];
+          }
         }
         // save the dumpConfig
         storage.set({'dumpConfig': dumpConfig}, function() {
@@ -91,9 +124,38 @@ dumprApp.service("DumprService", function($q) {
       });
     });    
   }
-});
+}]);
 
-dumprApp.controller("DumprController", function($scope, DumprService) {
+dumprApp.directive('fileReader', ['DumprService', function(DumprService) {
+  return {
+    restrict: 'A',
+    link: function(scope, element) {
+      element.change(function(changeEvent) {
+        var files = changeEvent.target.files;
+        if (files.length) {
+          var r = new FileReader();
+          r.onload = function(e) {
+            var contents = e.target.result;
+
+            // scope.$apply(function () {
+            //   scope.fileReader = contents;
+            //   console.log('contents is ' + contents);
+            // });
+
+            var uploadedDumps = JSON.parse(contents);
+            DumprService.addDumps(uploadedDumps).then(function(dumps) {
+              scope.dumps = dumps;
+            });
+          };
+
+          r.readAsText(files[0]);
+        }
+      });
+    }
+  };
+}]);
+
+dumprApp.controller("DumprController", ["$scope", "DumprService", function($scope, DumprService) {
   DumprService.getDumps().then(function(dumps){
     $scope.dumps = dumps;
   });
@@ -122,59 +184,8 @@ dumprApp.controller("DumprController", function($scope, DumprService) {
       $scope.dumps = dumps;
     });
   }
-});
 
-
-// -------------------- old code below, should not be used! ------------------------------------
-
-
-  var bigLittleMan;
-
-  function uploadDump(evt) {
-    var file = evt.target.files[0];
-
-    if (file) {
-      var reader = new FileReader();
-      reader.onload = function(e) {
-        var contents = e.target.result;
-        //console.log("name of file: " + file.name);
-        //console.log("type of file: " + file.type);
-        //console.log("contents of file: " + contents);
-        //console.log("typeof contents: " + typeof contents);
-
-        try {
-          bigLittleMan = JSON.parse(contents);
-        }
-        catch (ex) {
-          console.error("Your JSON is messed up: ", ex.message);
-        }
-        //console.log('bigLittleMan.length is: ' + bigLittleMan.length);
-        //console.log('bigLittleMan[0].appended ' + bigLittleMan[0].appended);
-        //console.log('bigLittleMan[0].substring ' + bigLittleMan[0].substring);
-        //console.log('bigLittleMan[1].appended ' + bigLittleMan[1].appended);
-        //console.log('bigLittleMan[1].substring ' + bigLittleMan[1].substring);
-        var myAppended = $('#myAppended');
-        var mySubstring = $('#mySubstring');
-        for (var i = bigLittleMan.length - 1; i >= 0; i--) {
-          myAppended.val(bigLittleMan[i].appended);
-          mySubstring.val(bigLittleMan[i].substring);
-          addDump(true);
-        }
-        reloadTable();
-      }
-      reader.readAsText(file);
-    } else {
-      console.log("Failed to load file");
-    }
-  }
-
-  // ----------------------------------------------------------------------------
-
-  // displays a message next to the 'Add' button for 3 seconds
-  function message(msg) {
-    var message = $('#theMessage');
-    message.text(msg);
-    setTimeout(function() {
-      message.text('');
-    }, 3000);
-  }
+  $scope.$watch('dumps', function() {
+    console.log('changed!');
+  });
+}]);

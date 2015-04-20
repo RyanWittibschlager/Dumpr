@@ -13,8 +13,8 @@
       <h1>Dumpr <small>Add dumps here...</small></h1>
 
       <div class="row">
-        <div class="col-md-3">
 
+        <div class="col-md-3">
           <form>
             <div class="form-group">
               <label>What would you like appended?</label>
@@ -26,15 +26,16 @@
             </div>
             <button ng-click="addDump(dump)" class="btn btn-default submit">Add</button><span id="theMessage"></span>
           </form>
-
           <div class="form-group">
             <button ng-click="upload=true" class="btn btn-link">Or...</button>
             <div class="upload" ng-if="upload">
               <p class="help-block">Upload a JSON-formatted dump.</p>
-              <input type="file" id="uploader">
+              <input type="file" file-reader/><br/>
+              <div>{{uploadDumps}}</div>
             </div>
           </div>
         </div>
+
         <div class="col-md-5">
           <button ng-click="help1=true" class="btn btn-link">Help</button>
           <div class="help1" ng-if="help1">
@@ -50,6 +51,7 @@
             </div>
           </div>
         </div>
+
         <div class="col-md-4">
         </div>
       </div>
