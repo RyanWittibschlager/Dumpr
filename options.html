@@ -28,10 +28,9 @@
           </form>
           <div class="form-group">
             <button ng-click="upload=true" class="btn btn-link">Or...</button>
-            <div class="upload" ng-if="upload">
+            <div class="upload" ng-show="upload">
               <p class="help-block">Upload a JSON-formatted dump.</p>
-              <input type="file" file-reader/><br/>
-              <div>{{uploadDumps}}</div>
+              <input type="file" file-reader />
             </div>
           </div>
         </div>

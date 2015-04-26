@@ -144,11 +144,14 @@ dumprApp.directive('fileReader', ['DumprService', function(DumprService) {
 
             var uploadedDumps = JSON.parse(contents);
             DumprService.addDumps(uploadedDumps).then(function(dumps) {
+              console.log('dumps: ' + dumps);
               scope.dumps = dumps;
+              console.log('scope.dumps: ' + scope.dumps);
             });
           };
 
           r.readAsText(files[0]);
+          //scope.$apply();
         }
       });
     }
