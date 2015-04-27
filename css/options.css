@@ -3,21 +3,21 @@
   padding: 1em;
 }
 
-.help1.ng-enter, .help2.ng-enter, .help3.ng-enter, .upload.ng-enter {
+.help1.ng-enter, .help2.ng-enter, .help3.ng-enter {
 	transition: 0.5s linear all;
 	opacity: 0;
 }
 
-.help1.ng-enter.ng-enter-active, .help2.ng-enter.ng-enter-active, .help3.ng-enter.ng-enter-active, .upload.ng-enter.ng-enter-active {
+.help1.ng-enter.ng-enter-active, .help2.ng-enter.ng-enter-active, .help3.ng-enter.ng-enter-active {
 	opacity: 1;
 }
 
-.help1.ng-leave {
+.help1.ng-leave, .animate-show.ng-hide-remove.ng-hide-remove-active {
   transition:0.5s linear all;
   opacity:1;
 }
 
-.help1.ng-leave.ng-leave-active {
+.help1.ng-leave.ng-leave-active, .animate-show.ng-hide {
   opacity:0;
 }
 
