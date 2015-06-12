@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="DumprApp" ng-csp>
+<html lang="en" ng-app="app" ng-csp>
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Dumpr</title>
@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="css/angular-csp.css">
     <link rel="stylesheet" href="css/options.css">
   </head>
-  <body ng-controller="DumprController">
+  <body ng-controller="DumprController as dumpr">
 
     <div class="container-fluid">
 
@@ -19,17 +19,17 @@
           <form>
             <div class="form-group">
               <label>What would you like appended?</label>
-              <input ng-model="dump.appended" class="question form-control" />
+              <input ng-model="dumpr.dump.appended" class="question form-control" />
             </div>
             <div class="form-group">
               <label>After which URL path segment?</label>          
-              <input ng-model="dump.substring" class="question form-control" placeholder="Leave blank to append to URL" />
+              <input ng-model="dumpr.dump.substring" class="question form-control" placeholder="Leave blank to append to URL" />
             </div>
-            <button ng-click="addDump(dump)" class="btn btn-default submit">Add</button><span id="theMessage"></span>
+            <button ng-click="dumpr.addDump(dumpr.dump)" class="btn btn-default submit">Add</button>
           </form>
           <div class="form-group">
-            <button ng-click="upload=true" class="btn btn-link">Or...</button>
-            <div class="animate-show" ng-show="upload">
+            <button ng-click="dumpr.upload=true" class="btn btn-link">Or...</button>
+            <div class="animate-show" ng-show="dumpr.upload">
               <p class="help-block">Upload a JSON-formatted dump.</p>
               <input type="file" file-reader />
             </div>
@@ -37,16 +37,16 @@
         </div>
 
         <div ng-cloak class="col-md-5">
-          <button ng-click="help1=true" class="btn btn-link">Help</button>
-          <div class="help1" ng-if="help1">
+          <button ng-click="dumpr.help1=true" class="btn btn-link">Help</button>
+          <div class="help1" ng-if="dumpr.help1">
             <p class="bg-info">Add a dump to the inventory. Make sure it is active. Then, whenever you click the Dumpr extension icon, a modified URL will be opened into a new tab.</p>
-            <button ng-click="help2=true" class="btn btn-link">I don't understand...</button>
-            <div class="help2" ng-if="help2">
+            <button ng-click="dumpr.help2=true" class="btn btn-link">I don't understand...</button>
+            <div class="help2" ng-if="dumpr.help2">
               <p class="bg-info">Let's say you have created a dump with Appended set to <code>allBugs/location.htm</code>, and you have Substring set to <code>bugs</code>. You navigate to a particular page within a website:<span class="exampleUrl">http://www.insects.com/world/us/bugsThatAreNotDangerous/cricket.htm</span>Clicking on the Dumpr extension button would open a new tab with the following URL:<span class="exampleUrl">http://www.insects.com/world/us/bugsThatAreNotDangerous/allBugs/location.htm</span></p>
-              <button ng-click="help3=true" class="btn btn-link">I still don't understand...</button>
-              <div class="help3" ng-if="help3">
+              <button ng-click="dumpr.help3=true" class="btn btn-link">I still don't understand...</button>
+              <div class="help3" ng-if="dumpr.help3">
                 <p class="bg-info">Let's break it down. The last part of the URL makes sense:<span class="exampleUrl">http://www.insects.com/world/us/bugsThatAreNotDangerous/<b>allBugs/location.html</b></span>This is what we wanted 'appended' to our URL. However, when you give a substring, the Dumpr searches for that substring in the current URL. If it finds it:<span class="exampleUrl">http://www.insects.com/world/us/<b>bugs</b>ThatAreNotDangerous/cricket.htm</span>then it appends the 'Appended' after that particular URL path segment, like so:<span class="exampleUrl">http://www.insects.com/world/us/bugsThatAreNotDangerous/<b>allBugs/location.html</b></span></p>
-                <button ng-click="hideHelpText()" class="btn btn-link">Okay, I think I understand. Can I get rid of this help text?</button>
+                <button ng-click="dumpr.hideHelpText()" class="btn btn-link">Okay, I think I understand. Can I get rid of this help text?</button>
               </div>
             </div>
           </div>
@@ -57,7 +57,7 @@
 
       </div>
 
-      <h3>Inventory <span ng-show="dumps.length < 1">(empty)</span></h3>
+      <h3>Inventory <span ng-show="dumpr.dumps.length < 1">(empty)</span></h3>
 
       <div class="row">
         <div class="col-md-6">
@@ -68,11 +68,11 @@
               <th>Substring</th>
               <th>Active</th>
             </tr>
-            <tr ng-repeat="dump in dumps | orderBy:'-id'">
-              <td><input type="button" value="X" class="btn btn-danger" ng-click="removeDump(dump)" /></td>
+            <tr ng-repeat="dump in dumpr.dumps | orderBy:'-id'">
+              <td><input type="button" value="X" class="btn btn-danger" ng-click="dumpr.removeDump(dump)" /></td>
               <td>{{dump.appended}}</td>
               <td>{{dump.substring}}</td>
-              <td><input type="radio" name="mractive" ng-checked="dump.active" ng-click="activateDump(dump)" /></td>
+              <td><input type="radio" name="mractive" ng-checked="dump.active" ng-click="dumpr.activateDump(dump)" /></td>
             </tr>
           </table>
         </div>

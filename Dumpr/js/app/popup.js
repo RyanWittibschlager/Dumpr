@@ -1,4 +1,6 @@
 (function() {
+  'use strict';
+
   var currentUrl = "";
   chrome.tabs.query({active:true,currentWindow:true},function(tabArray){
       console.log(tabArray[0].url);

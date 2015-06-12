@@ -1,1 +1,6 @@
-var dumprApp = angular.module("DumprApp", ['ngAnimate']);
+(function() {
+	'use strict';
+
+	angular
+		.module('app', ['ngAnimate']);
+})();

@@ -1,30 +1,44 @@
-dumprApp.controller("DumprController", ["$scope", "DumprService", function($scope, DumprService) {
-  DumprService.getDumps().then(function(dumps){
-    $scope.dumps = dumps;
-  });
+(function() {
+  'use strict';
 
-  $scope.hideHelpText = function() {
-    $scope.help1 = false;
-  }
+  angular
+    .module('app')
+    .controller('DumprController', ['$scope', 'DumprService', DumprController]);
 
-  $scope.addDump = function(dump) {
+  function DumprController($scope, DumprService) {
+    var vm = this;
 
-    DumprService.addDumps([dump]).then(function(dumps){
-      $scope.dumps = dumps;
+    DumprService.getDumps().then(function(dumps){
+      vm.dumps = dumps;
     });
 
-    delete $scope.dump;
-  }
+    //$scope.$watch('vm.dumps', function(current, original) {
+    //  alert('hey, dummps changed!');
+    //});
 
-  $scope.removeDump = function(dump) {
-    DumprService.removeDump(dump).then(function(dumps){
-      $scope.dumps = dumps;
-    });
-  }
+    vm.hideHelpText = function() {
+      vm.help1 = false;
+    }
 
-  $scope.activateDump = function(dump) {
-    DumprService.activateDump(dump).then(function(dumps){
-      $scope.dumps = dumps;
-    });
-  }
-}]);
+    vm.addDump = function(dump) {
+
+      DumprService.addDumps([dump]).then(function(dumps){
+        vm.dumps = dumps;
+      });
+
+      delete vm.dump;
+    }
+
+    vm.removeDump = function(dump) {
+      DumprService.removeDump(dump).then(function(dumps){
+        vm.dumps = dumps;
+      });
+    }
+
+    vm.activateDump = function(dump) {
+      DumprService.activateDump(dump).then(function(dumps){
+        vm.dumps = dumps;
+      });
+    }
+  };
+})();
